@@ -67,3 +67,7 @@ http.createServer(app).listen(port, () => {
 // https.createServer(options, app).listen(port_https, () => {
 //     console.log('HTTPS API server started on: ' + port_https);
 // });
+
+process.on("unhandledRejection", (reason, p) => {
+    console.error("Unhandled Rejection at:", p, "reason:", reason)
+});

@@ -1,10 +1,9 @@
 const jwt = require("jsonwebtoken");
 const {StatusCodes} = require('http-status-codes');
-
+const {extractToken} = require('../utils/helper');
 module.exports = function (req, res, next) {
     try {
-        const authHeader = req.headers['authorization']
-        const token = authHeader && authHeader.split(' ')[1]
+        const token = extractToken(req);
 
         if (token == null) {
             return res.status(StatusCodes.UNAUTHORIZED).send("Unauthorized");
@@ -15,7 +14,7 @@ module.exports = function (req, res, next) {
                 console.log(err);
                 return res.status(StatusCodes.FORBIDDEN).send("Invalid user");
             }
-            req.user = user;
+            req.user = user["userData"];
             next();
         });
     } catch (e) {
